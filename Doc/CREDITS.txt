@@ -1,0 +1,9 @@
+		 mu-diff is copyright (C) 2014
+
+                          Xavier ANTOINE
+                  <xavier.antoine at univ-lorraine.fr>
+
+                               and 
+
+                       Bertrand THIERRY 
+                     <bthierry at math.cnrs.fr>
