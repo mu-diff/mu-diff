@@ -39,7 +39,7 @@
 %   > B = IncidentWave(O, a, M_modes, k, 3, OS)
 % 3) For 2 obstacles, a vector with (-u^inc, -dn u^inc) where u^inc is a
 % plane wave of direction beta_inc:
-%   > B = IncidentWave(O, a, M_modes, k, [2,3], beta_inc)
+%   > B = IncidentWave(O, a, M_modes, k, [1,2], beta_inc)
 %
 % REMARK:
 % -------
