@@ -139,9 +139,9 @@ MAXIT = 500;
 
 %% -----------------------------------------
 %            Integral formulation
-% Helmholt representation:
+% Helmholtz representation:
 % u = -/+ \int_{\Gamma} G^{+/-}(x,y) u(y) d\Gamma(y)
-%          +/- \int_{\Gamma} dn G^{+/-}(x,y) dn u(y) d\Gamma(y)
+%          -/+ \int_{\Gamma} dn G^{+/-}(x,y) dn u(y) d\Gamma(y)
 % Calderon operator
 %% Boundary integral operators
 Cext = CalderonProjector(O, a, M_modes, k);
