@@ -65,7 +65,7 @@ else
    end
 end
 
-%% Penetrable case
+%% Non-penetrable case
 if(~Penetrable)
     % Fourier bases truncations
     M_modes = max(ones(1,N_scat),max([2^2*ones(1,N_scat); floor(k.*a + (1/(2*sqrt(2))*log(2*sqrt(2)*pi*k.*a/tolM)).^(2/3).*(k.*a).^(1/3) +1)]));
@@ -82,7 +82,7 @@ if(~Penetrable)
         %Far Field
         F(:,indice_angle) = halpha*FarField(O, a, M_modes, k, ReceptionAngles, rho, TypeOfForm);
     end
-%% Impenetrable case    
+%% Penetrable case    
 else
     %Building the integral operator
     M_modes_plus = max(10*ones(1,N_scat),max([2^2*ones(1,N_scat); floor(k.*a + (1/(2*sqrt(2))*log(2*sqrt(2)*pi*k.*a/tolM)).^(2/3).*(k.*a).^(1/3) +1)]));
