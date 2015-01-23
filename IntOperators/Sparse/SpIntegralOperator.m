@@ -22,14 +22,16 @@
 % M_Modes    [1 x N_scat]    : Truncation index in the Fourier series of
 %                              obstacles
 % k          [1 x 1]         : Wavenumber in the vacuum
-% TypeOfOperator  (see below): Null matrix (0), Identity I (1), 
-%                              SingleLayer L (2), DoubleLayer M (3),
-%                              DnSingleLayer N (4), DnDoubleLayer D (5)
-%                              Precond_Dirichlet (6), Precond_Neumann (7)
+% TypeOfOperator  (see below): Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
+%                              SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
+%                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
+%                              Precond_Dirichlet (6 or 'P'), Precond_Neumann (7 or 'Q')
 % 
 % TypeOfOperator:
 % ---------------
-% - SCALAR value: IntegralOperator(..., 2) produces SingleLayer L
+% - integer or char values
+% - SCALAR value: SpIntegralOperator(..., 2) produces SingleLayer L
+%      OR one char value: SpIntegralOperator(..., 'L') produces SingleLayer L
 % - MATRIX value T: IntegralOperator(..., T) then block (p,q) is of type
 %   T(p,q)
 %
@@ -38,8 +40,8 @@
 %   A = IntegralOperator(..., TypeOfOperator, Weight)
 % where Weight is of the same size as TypeOfOperator and contains
 % multiplicative constants to apply to the desired operator:
-% - SCALAR value: IntegralOperator(..., 2, 0.5) produces 0.5*L
-% - MATRIX value T, W: IntegralOperator(..., T, W) then block (p,q) is of type
+% - SCALAR value: SpIntegralOperator(..., 2, 0.5) produces 0.5*L
+% - MATRIX value T, W: SpIntegralOperator(..., T, W) then block (p,q) is of type
 %       W(p,q)*T(p,q)
 %
 % REMARK: contrary to the dense function, it is not possible to directly sum
@@ -60,14 +62,14 @@
 %   > Weight = [1,2;3,4];
 %   > [A{1},A{2},A{3}] = SpIntegralOperator(O, a, M_modes, k, TypeOfOp, Weight)
 %
-% See also BlockIntegralOperator
+% See also Parser, BlockIntegralOperator
 % SpBlockIntegralOperator, SpIntegralOperator, SpSingleLayer,
 % SpDnSingleLayer, SpDoubleLayer, SpDnDoubleLayer,
 % SpPrecondOperator_Dirichlet, SpPrecondOperator_Neumann
 
 %%
 function A = SpIntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
-
+    TypeOfOperator = IntegralOperatorParser(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};

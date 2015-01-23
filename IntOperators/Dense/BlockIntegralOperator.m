@@ -26,14 +26,15 @@
 % Nq              [1 x 1]    : Truncation index in the Fourier series of 
 %                              obstacle q
 % k               [1 x 1]    : Wavenumber in the vacuum
-% TypeOfOperator  [1 x 1]    : Null matrix (0), Identity I (1), 
-%              or [1 x Nop]    SingleLayer L (2), DoubleLayer M (3),
-%                              DnSingleLayer N (4), DnDoubleLayer D (5)
-%                              Precond_Dirichlet (6), Precond_Neumann (7)
+% TypeOfOperator  [1 x 1]    : Null matrix (0 or 'Z'), Identity I (1  or 'I'), 
+%              or [1 x Nop]    SingleLayer L (2  or 'L'), DoubleLayer M (3 or 'M'),
+%                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
+%                              Precond_Dirichlet (6 or 'P'), Precond_Neumann (7 or 'Q')
 %
 % REMARK: if Nop (=size(TypeOfOperator,2)) >1 then multiple operators are
 % computed and summed together. For example:
 %   TypeOfOperator = [1,4] will produce I + N
+%   TypeOfOperator accepts char instead of integer
 % 
 % OPTIONS:
 % --------
@@ -43,16 +44,19 @@
 %
 % EXAMPLES:
 % ---------
-% blockIntegralOperator(..., 2, 0.5) will produce 0.5*L
-% blockIntegralOperator(..., [1,4], [0.5,1]) will produce: 0.5*I + N
+% BlockIntegralOperator(..., 2, 0.5) will produce 0.5*L
+%   OR for the same result: BlockIntegralOperator(..., 'L', 0.5)
+% BlockIntegralOperator(..., [1,4], [0.5,1]) will produce: 0.5*I + N
+%   OR BlockIntegralOperator(..., ['L','N'], [0.5,1]) will produce: 0.5*I + N
 % 
-% See also IntegralOperator,
+% See also Parser, IntegralOperator,
 % SpBlockIntegralOperator, SpIntegralOperator, BlockSingleLayer,
 % BlockDnSingleLayer, BlockDoubleLayer, BlockDnDoubleLayer,
 % BlockPrecondDirichlet, BlockPrecondNeumann
 
 %%
 function Apq = BlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, k, TypeOfOperator, varargin)
+    TypeOfOperator = IntegralOperatorParser(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};

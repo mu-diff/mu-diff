@@ -33,10 +33,10 @@
 %                              obstacle q
 % Nmax            [1 x 1]    : Reference number N (max of every other Np)
 % k               [1 x 1]    : Wavenumber in the vacuum
-% TypeOfOperator  [1 x 1]    : Null matrix (0), Identity I (1), 
-%                              SingleLayer L (2), DoubleLayer M (3),
-%                              DnSingleLayer N (4), DnDoubleLayer D (5)
-%                              Precond_Dirichlet (6), Precond_Neumann (7)
+% TypeOfOperator  [1 x 1]    : Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
+%                              SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
+%                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
+%                              Precond_Dirichlet (6 or 'P'), Precond_Neumann (7 or 'Q')
 % OPTION:
 % -------
 % [...] = SpBlockIntegralOperator(..., TypeOfOperator, Weight)
@@ -45,8 +45,9 @@
 % EXAMPLE:
 % --------
 % SpBlockIntegralOperator(..., 2, 0.5) will produce 0.5*L
+%   OR: SpBlockIntegralOperator(..., 'L', 0.5) produces 0.5*L
 % 
-% See also IntegralOperator,
+% See also Parser, IntegralOperator,
 % BlockIntegralOperator, SpIntegralOperator, BlockSingleLayer,
 % BlockDnSingleLayer, BlockDoubleLayer, BlockDnDoubleLayer,
 % BlockPrecondDirichlet, BlockPrecondNeumann
@@ -55,6 +56,7 @@
 
 function [LeftPart, MiddlePart, RightPart] = SpBlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, Nmax, k, TypeOfOperator, varargin)
 
+    TypeOfOperator = IntegralOperatorParser(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};

@@ -23,15 +23,18 @@
 % k          [1 x 1]         : Wavenumber in the vacuum
 %        or  [1 x N_scat]      if k is non scalar, then k(p) = wavenumber 
 %                              associated to obstacle p
-% TypeOfOperator  (see below): Null matrix (0), Identity I (1), 
-%                              SingleLayer L (2), DoubleLayer M (3),
-%                              DnSingleLayer N (4), DnDoubleLayer D (5)
-%                              Precond_Dirichlet (6), Precond_Neumann (7)
+% TypeOfOperator  (see below): Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
+%                              SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
+%                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
+%                              Precond_Dirichlet (6 or 'P'), Precond_Neumann (7 or 'Q')
 % 
 % TypeOfOperator:
 % ---------------
+% - integer or char values
 % - SCALAR value: IntegralOperator(..., 2) produces SingleLayer L
+%      OR one char value: IntegralOperator(..., 'L') produces SingleLayer L
 % - ROW VECTOR value: IntegralOperator(..., [1,4]) produces I+N
+%                  OR IntegralOperator(..., ['L','M']) produces I+N 
 % - MATRIX value T: IntegralOperator(..., T) then block (p,q) is of type
 %   T(p,q)
 % - 3D Matrix value T: IntegralOperator(..., T) then block (p,q) is the sum
@@ -69,7 +72,7 @@
 %   > TypeOfOp = 2*eye(N_scat, N_scat);
 %   > A = IntegralOperator(O, a, M_modes, k, TypeOfOp);
 %
-% See also BlockIntegralOperator
+% See also Parser, BlockIntegralOperator
 % SpBlockIntegralOperator, SpIntegralOperator, SingleLayer,
 % DnSingleLayer, DoubleLayer, DnDoubleLayer,
 % PrecondOperator_Dirichlet, PrecondOperator_Neumann
@@ -77,6 +80,7 @@
 
 function [A] = IntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
 
+    TypeOfOperator = IntegralOperatorParser(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};
