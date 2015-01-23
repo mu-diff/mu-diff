@@ -56,7 +56,7 @@
 
 function [LeftPart, MiddlePart, RightPart] = SpBlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, Nmax, k, TypeOfOperator, varargin)
 
-    TypeOfOperator = IntegralOperatorParser(TypeOfOperator);
+    TypeOfOperator = Parser(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};

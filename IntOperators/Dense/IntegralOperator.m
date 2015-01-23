@@ -80,7 +80,7 @@
 
 function [A] = IntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
 
-    TypeOfOperator = IntegralOperatorParser(TypeOfOperator);
+    TypeOfOperator = Parser(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};
