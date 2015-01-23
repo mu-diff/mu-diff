@@ -38,12 +38,16 @@
 %
 % OPTIONS:
 % --------
-%   TriangularLattice(..., 'Center', Ostart)
+%   TriangularLattice(..., 'Origin', Ostart)
 % place the first disk on Ostart position, Ostart being a [2x1] vector.
 % Default: [0;0].
 % 
 %   TriangularLattice(..., 'Direction', +/- 1)
 % place the row in the increasing y (+1) or decreasing y (-1). Default: +1
+%
+%   TriangularLattice(..., 'Centered', Ocenter)
+% Center the collection on the point Ocenter.
+% Default: none but erase Ostart ('Origin' option)
 %
 % See also RectangularLattice, CreateRandomDisks, PlotCircles
 %
@@ -57,11 +61,17 @@ direction = 1; %from bottom to top
 nvarargin = length(varargin);
 cpt_arg = 1;
 while(cpt_arg <= nvarargin)
-   if(strcmp(varargin{cpt_arg}, 'Center'))
+   if(strcmp(varargin{cpt_arg}, 'Origin'))
        Ostart = varargin{cpt_arg+1};
        cpt_arg = cpt_arg +2;
    elseif(strcmp(varargin{cpt_arg}, 'Direction'))
        direction = varargin{cpt_arg+1};
+       cpt_arg = cpt_arg +2;
+   elseif(strcmp(varargin{cpt_arg}, 'Centered'))
+       Ocenter = varargin{cpt_arg+1};
+       xOstart = Ocenter(1) - bx*(Nx-1)/2;
+       yOstart = Ocenter(2) - by*(Ny-1)/2;
+       Ostart = [xOstart; yOstart];
        cpt_arg = cpt_arg +2;
    else
        warning('Unkown option');
