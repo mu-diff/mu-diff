@@ -26,10 +26,12 @@
 % Nq              [1 x 1]    : Truncation index in the Fourier series of 
 %                              obstacle q
 % k               [1 x 1]    : Wavenumber in the vacuum
-% TypeOfOperator  [1 x 1]    : Null matrix (0 or 'Z'), Identity I (1  or 'I'), 
-%              or [1 x Nop]    SingleLayer L (2  or 'L'), DoubleLayer M (3 or 'M'),
+% TypeOfOperator  [1 x 1]    : See Parser function.
+%              or [1 x Nop]    Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
+%                              SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
 %                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
-%                              Precond_Dirichlet (6 or 'P'), Precond_Neumann (7 or 'Q')
+%                              Precond_Dirichlet (6 or 'P' (or cell-'Lprec')), 
+%                              Precond_Neumann (7 or 'Q' (or cell-'Dprec'))
 %
 % REMARK: if Nop (=size(TypeOfOperator,2)) >1 then multiple operators are
 % computed and summed together. For example:

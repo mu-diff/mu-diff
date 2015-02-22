@@ -141,7 +141,7 @@ SpA_EFIE = SpDnDoubleLayer(O, a, M_modes, k);
 [rho_SpEFIE,FLAG_SpEFIE,RELRES_SpEFIE,ITER_SpEFIE,RESVEC_SpEFIE] = gmres(@(X)SpMatVec(X, M_modes, SpA_EFIE), DnUinc, RESTART, TOL, MAXIT, [], []);
 
 %% MFIE
-A_MFIE = IntegralOperator(O, a, M_modes, k, [1,3], [0.5, 1]);
+A_MFIE = IntegralOperator(O, a, M_modes, k, ['I','M'], [0.5, 1]);
 [rho_MFIE,FLAG_MFIE,RELRES_MFIE,ITER_MFIE,RESVEC_MFIE] = gmres(A_MFIE, Uinc, RESTART, TOL, MAXIT, [], []);
 %% SPARSE MFIE
 SpM = SpDoubleLayer(O, a, M_modes, k);
@@ -162,14 +162,14 @@ B_CFIE = alpha * eta * Uinc + (1-alpha)* DnUinc;
 
 %% Brackage Werner
 eta_BW = 1i/k;
-A_BW = IntegralOperator(O, a, M_modes, k, [1, 4, 5], [0.5, -1, -eta_BW]);
+A_BW = IntegralOperator(O, a, M_modes, k, ['I', 'N', 'D'], [0.5, -1, -eta_BW]);
 [psi_BW,FLAG_BW,RELRES_BW,ITER_BW,RESVEC_BW] = gmres (A_BW, DnUinc, RESTART,TOL,MAXIT);
 %% SPARSE Brackage Werner
 SpN = SpDnSingleLayer(O, a, M_modes, k);
 [psi_SpBW,FLAG_SpBW,RELRES_SpBW,ITER_SpBW,RESVEC_SpBW] = gmres(@(X)SpMatVec(X, M_modes,{SpI, SpN, SpA_EFIE}, [0.5, -1, -eta_BW]), DnUinc, RESTART, TOL, MAXIT, [], []);
 
 %% Single scattering preconditioned integral equation (single-layer formulation)
-A_Precond = IntegralOperator(O, a, M_modes, k, 7);
+A_Precond = IntegralOperator(O, a, M_modes, k, {'Dprec'});
 switch IncidentWave
     case 'PlaneWave'
         DnUincPrecond = DnPlaneWavePrecond(O, a, M_modes, k, beta_inc);
@@ -179,7 +179,7 @@ end
 
 [rho_Precond,FLAG_Precond,RELRES_Precond,ITER_Precond,RESVEC_Precond] = gmres(A_Precond, DnUincPrecond, RESTART, TOL, MAXIT, [], []);
 %% SPARSE Precond
-SpPrecond = SpIntegralOperator(O, a, M_modes, k, 7);
+SpPrecond = SpIntegralOperator(O, a, M_modes, k, {'Dprec'});
 [rho_SpPrecond,FLAG_SpPrecond,RELRES_SpPrecond,ITER_SpPrecond,RESVEC_SpPrecond] = gmres(@(X)SpMatVec(X, M_modes,SpPrecond), DnUincPrecond, RESTART, TOL, MAXIT, [], []);
 
 %% -----------------------------------------

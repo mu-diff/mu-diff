@@ -24,10 +24,11 @@
 %        or  [1 x N_scat]      if k is non scalar, then k(p) = wavenumber 
 %                              associated to obstacle p
 % TypeOfOperator  (see below): Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
-%                              SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
+% (See Parser)                 SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
 %                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
-%                              Precond_Dirichlet (6 or 'P'), Precond_Neumann (7 or 'Q')
-% 
+%                              Precond_Dirichlet (6 or 'P' (or cell-'Lprec')), 
+%                              Precond_Neumann (7 or 'Q' (or cell-'Dprec'))
+%
 % TypeOfOperator:
 % ---------------
 % - integer or char values

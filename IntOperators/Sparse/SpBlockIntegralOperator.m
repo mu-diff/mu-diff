@@ -33,10 +33,12 @@
 %                              obstacle q
 % Nmax            [1 x 1]    : Reference number N (max of every other Np)
 % k               [1 x 1]    : Wavenumber in the vacuum
-% TypeOfOperator  [1 x 1]    : Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
+% TypeOfOperator  [1 x 1]    : See Parser function. 
+%                              Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
 %                              SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
 %                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
-%                              Precond_Dirichlet (6 or 'P'), Precond_Neumann (7 or 'Q')
+%                              Precond_Dirichlet (6 or 'P' (or cell-'Lprec')), 
+%                              Precond_Neumann (7 or 'Q' (or cell-'Dprec'))
 % OPTION:
 % -------
 % [...] = SpBlockIntegralOperator(..., TypeOfOperator, Weight)
