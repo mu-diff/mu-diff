@@ -28,7 +28,8 @@
 % k           [1 x 1]      : Wavenumber in the vacuum
 % TypeOfWave  [1 x 1]      : Plane wave (1), Dn Plane wave (2), 
 %          or [N_scat x 1]   Point source (3), Dn Point source (4),
-%                            Precond Plane wave (5), Precond Dn Plane wave (6)
+%                            Precond Plane wave (5), Precond Dn Plane wave (6),
+%                            Precond Point source (7), Precond Dn Point source (8),
 % varagin    (var)         : Parameter of the incident wave (direction, ...)
 % 
 % EXAMPLE:
@@ -58,6 +59,7 @@ function B = IncidentWave(O, a, M_modes, k, TypeOfWave, varargin)
     if(isempty(varargin))
        error('Missing argument! (direction of wave or position of point source)'); 
     end
+    ScalarTypeOfWave = ParserIncidentWave(TypeOfWave);
     %Initialization
     N_scat = length(a);
     Sum_modes = 2.*M_modes + 1;
@@ -73,7 +75,7 @@ function B = IncidentWave(O, a, M_modes, k, TypeOfWave, varargin)
         Np = M_modes(p);
         MNp = [-Np:Np].';
         
-        this_wave = GetTypeOfWave(TypeOfWave, p);
+        this_wave = GetTypeOfWave(ScalarTypeOfWave, p);
         B(Sp + MNp +(Np+1))= BlockIncidentWave(Op, ap, Np, k, this_wave, varargin{1});
         %Upgrade of the row-counter
         Sp = Sp + 2*Np+1; 
@@ -83,28 +85,17 @@ end
 %%
 function this_wave = GetTypeOfWave(TypeOfWave, p)
     if(length(TypeOfWave) == 1)
-        this_wave= TypeOfWave;
+        if(iscell(TypeOfWave))
+            this_wave= TypeOfWave{1};
+        else
+            this_wave= TypeOfWave;
+        end
     else
-        this_wave = TypeOfWave(p);
+        if(iscell(TypeOfWave))
+            this_wave = TypeOfWave{p};
+        else
+            this_wave = TypeOfWave(p);
+        end
     end
 
 end
-
-%%
-function param = GetParam(this_wave, arg)
-    if( this_wave == 1 || this_wave == 2 || (this_wave >=5 && this_wave <=6))
-        %Plane wave
-        if(isscalar(arg))
-            param = arg;
-        else
-            error('Plane wave must be specified with a scalar argument (angle of direction)');
-        end
-    else
-         %Point source
-        if((isrow(arg) || iscolumn(arg)) && length(arg) == 2)
-            param = arg;
-        else
-            error('Point source must be specified with [XS,YS] argument');
-        end    
-    end
-end           

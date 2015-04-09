@@ -16,7 +16,7 @@
 %
 % INPUT ARGUMENTS:
 % ----------------
-% A can be a one, two or three dimensionnal array or cell.
+% A : can be a one, two or three dimensionnal array or cell.
 % If A is an array, it can be composed by numeric or (only one) char values
 % If A is a cell, it can be composed by numeric or char values (more than 1
 % char). See below.

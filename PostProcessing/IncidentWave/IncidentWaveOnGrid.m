@@ -85,9 +85,9 @@ function FormattedType = ReadType(TypeOfWave)
         switch TypeOfWave
             case 1, FormattedType = 'PlaneWave';
             case 2, FormattedType = 'PointSource';
-            otherwise, error('Unrecognized type of incident wave');
+            otherwise, error('Unknown type of incident wave');
         end
     else
-        error('Unrecognized type of incident wave');
+        error('Unknown type of incident wave');
     end
 end

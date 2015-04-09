@@ -55,8 +55,8 @@ function Bp = BlockIncidentWave(Op, ap, Np, k, TypeOfWave, varargin)
     %Initialization
     Bp = zeros(2*Np+1,1);
     MNp = [-Np:Np].';
-
-    switch TypeOfWave
+    ScalarTypeOfWave = ParserIncidentWave(TypeOfWave);
+    switch ScalarTypeOfWave
         case 0, %Nothing
         case 1, %Plane wave
             beta_inc = GetParam(TypeOfWave, Param);
@@ -98,6 +98,22 @@ function Bp = BlockIncidentWave(Op, ap, Np, k, TypeOfWave, varargin)
             I = exp(1i*k*(Op(1)*cos(beta_inc) + Op(2)*sin(beta_inc)));
             d_m = I*exp(1i*MNp*(pi/2-beta_inc));
             Bp= 1i*2*sqrt(2/pi/ap)/k* (d_m.*dH1m_kap_inv);                
+        case 7, %Precond Dirichlet Point Source (trace precond by single-layer)
+            XS = GetParam(TypeOfWave, Param);
+            betap = fangle(Op,XS);
+            bp = norm(Op-XS);
+            Hm_kbp = besselh(-MNp,1,k*bp);
+            H1m_kap_inv = 1./besselh(MNp,1,k*ap);
+            Exp_betap = exp(-1i*MNp*betap);    
+            Bp= - 1/sqrt(2*pi*ap)*Hm_kbp.*H1m_kap_inv.*Exp_betap;
+        case 8, %Precond Neumann Dn Point Source (dn trace precond by double-layer)
+            XS = GetParam(TypeOfWave, Param);
+            betap = fangle(Op,XS);
+            bp = norm(Op-XS);
+            Hm_kbp = besselh(-MNp,1,k*bp);
+            dH1m_kap_inv = 1./dbesselh(MNp,1,k*ap);
+            Exp_betap = exp(-1i*MNp*betap);
+            Bp= 1/(k*sqrt(2*pi*ap))*Hm_kbp.*dH1m_kap_inv.*Exp_betap;
     end
 end
 
@@ -122,4 +138,4 @@ function param = GetParam(TypeOfWave, arg)
             error('Point source must be specified with [XS,YS] argument');
         end    
     end
-end           
+end
