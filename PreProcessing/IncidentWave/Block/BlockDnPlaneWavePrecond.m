@@ -13,7 +13,7 @@
 % dn double-layer operator (single scattering preconditioner for sound hard
 % obstacles)
 % -------------------------------------------------------------------------
-% REMARK: What is computed is the OPPOSITE of the coefficient: -u^inc
+% REMARK: What is computed is the OPPOSITE of the coefficient: -dn u^inc
 % -------------------------------------------------------------------------
 %   Bp = BlockDnPlaneWavePrecond(Op, ap, Np, k, OS)
 %

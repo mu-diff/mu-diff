@@ -13,7 +13,9 @@
 % dn double-layer operator (single scattering preconditioner for sound hard
 % obstacles)
 % -------------------------------------------------------------------------
-% REMARK: What is computed is the OPPOSITE of the coefficient: -u^inc
+% REMARK: What is computed is the OPPOSITE of the coefficient: -dn G|_\Gamma
+% -------------------------------------------------------------------------
+% Green function: G(x,y) = 0.25*i*H_0^1(k\|x-y\|)
 % -------------------------------------------------------------------------
 %   Bp = BlockDnPointSourcePrecond(Op, ap, Np, k, OS)
 %
@@ -28,12 +30,12 @@
 % Np          [1 x N_scat] : Truncation index in the Fourier series of
 %                            obstacles
 % k           [1 x 1]      : Wavenumber in the vacuum
-% beta_inc    [1 x 1]      : Direction of the wave
+% OS          [2 x 1]      : Coordinates of the point source
 %
-% See also IncidentWave, BlockIncidentWave, DnPlaneWavePrecond
+% See also IncidentWave, BlockIncidentWave, PointSourcePrecond, DnPointSourcePrecond
 %
 %
 
-function Bp = BlockDnPointSourcePrecond(Op, ap, Np, k, XS)
- Bp = BlockIncidentWave(Op, ap, Np, k, 8, XS);
+function Bp = BlockDnPointSourcePrecond(Op, ap, Np, k, OS)
+ Bp = BlockIncidentWave(Op, ap, Np, k, 8, OS);
 end
