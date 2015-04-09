@@ -52,7 +52,7 @@ ColorSpCFIE= 'm-.';
 ColorSpBW = 'b-.';
 ColorSpPrecond = 'c-.';
 
-%% GRID on which the fiels are computed
+%% GRID on which the fields are computed
 XXmin = -10; XXmax = 10;
 YYmin = -10; YYmax = 10;
 %lc = min(lambda/15, 1/10); % characteristic length

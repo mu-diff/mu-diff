@@ -7,7 +7,7 @@
 %
 % ~~~
 % Solve the Neumann problem of multiple scattering by disk, using a 
-% single-layer representation of the scattered field.
+% double-layer representation of the scattered field.
 % -------------------------------------------------------------------------
 %   Solution = NeumannSolver(O, a, k, TypeOfWave, ParamWave)
 %
@@ -21,7 +21,7 @@
 %                              obstacles)
 %   Solution{5} = TypeOfWave
 %   Solution{6} = ParamOfWave (beta_inc or OS)
-%   Solution{7} = rho, the solution
+%   Solution{7} = lambda, the solution
 %
 % INPUT ARGUMENTS (N_scat = number of obstacles):
 % -----------------
@@ -36,11 +36,13 @@
 % ----------
 % 1- Solution = NeumannSolver(..., 'Sparse')
 %  Force sparse storage for solving process (otherwise, Full storage)
+%  This should be used if the problem is large.
 % 2- Solution = NeumannSolver(..., 'Iterative')
 %  Use GMRES instead of a direct solver
+%  This should be used if the problem is large.
 % 3- Solution = NeumannSolver(..., 'Tol', TOL)
 %  Set the tolerance of the iterative solver to TOL (if 'Iterative' has been
-%  set)
+%  set). Default: 1e-6
 %
 % See also NeumannRCS, NeumannFarField, NeumannNearField
 %
@@ -54,7 +56,7 @@ M_modes = FourierTruncation(a, k, 'Min', 1);
 %% GMRES parameters
 MAXIT = sum(2*M_modes+1);
 RESTART = [];
-TOL = 10^(-10);
+TOL = 10^(-6);
 %% Reading arguments
 TypeOfStorage = 'Full';
 TypeOfSolver = 'Direct';
@@ -82,7 +84,7 @@ while (cpt < nvar)
     end
 end
 
-if(strcmp(TypeOfStorage, 'SpPrecond'))
+if(strcmp(TypeOfStorage, 'Sparse'))
     TypeOfSolver = 'Iterative';
     disp('Warning: Direct solver cannot be used with sparse storage');
 end

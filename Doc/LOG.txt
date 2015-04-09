@@ -2,6 +2,8 @@
 - Add point source incident wave preconditioned version
 - Add parser for incident wave
 - Add Solver for Dirichlet and Neumann cases
+- Add Solver for Penetrable case
+- Add Examples using these solvers
 02/22/2015:
 Functions IntegralOperator, BlockIntegralOperator, ... now accept char array (or cell of strings) to define the type of operators.
 See the function's help or Common/Parser.m for more information.

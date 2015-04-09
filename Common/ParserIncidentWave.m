@@ -36,37 +36,45 @@
 % See also IncidentWave, BlockIncidentWave
 
 function B = ParserIncidentWave(A)
-    nrows = size(A,1);
-    
-    B = zeros(size(A));
-    
-    if(iscell(A) || (ischar(A) && nrows==1))
-        for i=1:nrows
-            if(iscell(A))
-                ai = A{i};
-            else
-               ai = A;
-            end
-            if(ischar(ai))
-                switch ai
-                    case 'PlaneWave', bi = 1;
-                    case 'DnPlaneWave', bi = 2;
-                    case 'PointSource', bi = 3;
-                    case 'DnPointSource', bi = 4;
-                    case 'PlaneWavePrecond', bi = 5;
-                    case 'DnPlaneWavePrecond', bi = 6;
-                    case 'PointSourcePrecond', bi = 7;
-                    case 'DnPointSourcePrecond', bi = 8;
-                    otherwise, error(['ParserIncidentWave error: unknown value ', ai]);
+    if (ischar(A))
+        B = ParseCharIncidentWave(A);
+    else
+        nrows = size(A,1);
+        B = zeros(size(A));
+        if(iscell(A))
+            for i=1:nrows
+                if(iscell(A))
+                    ai = A{i};
+                else
+                   ai = A;
                 end
-            elseif(isscalar(ai))
-                bi = ai;
-            else
-                error('ParserIncidentWave error: unknown type (non scalar nor char)');
+                if(ischar(ai))
+                    bi = ParseCharIncidentWave(ai);
+                elseif(isscalar(ai))
+                    bi = ai;
+                else
+                    error('ParserIncidentWave error: unknown type (non scalar nor char)');
+                end
+                B(i) = bi;
             end
-            B(i) = bi;
+        else %one value only
+            B = A;
         end
-    else %one value only
-        B = A;
+    end
+end
+
+
+%%
+function bi = ParseCharIncidentWave(ai)
+    switch ai
+        case 'PlaneWave', bi = 1;
+        case 'DnPlaneWave', bi = 2;
+        case 'PointSource', bi = 3;
+        case 'DnPointSource', bi = 4;
+        case 'PlaneWavePrecond', bi = 5;
+        case 'DnPlaneWavePrecond', bi = 6;
+        case 'PointSourcePrecond', bi = 7;
+        case 'DnPointSourcePrecond', bi = 8;
+        otherwise, error(['ParserIncidentWave error: unknown value ', ai]);
     end
 end

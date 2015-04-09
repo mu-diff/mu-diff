@@ -35,12 +35,14 @@
 % OPTIONS :
 % ----------
 % 1- Solution = DirichletSolver(..., 'Sparse')
-%  Force sparse storage for solving process (otherwise, Full storage)
+%  Force sparse storage for solving process (otherwise, Full storage).
+%  This should be used if the problem is large.
 % 2- Solution = DirichletSolver(..., 'Iterative')
 %  Use GMRES instead of a direct solver
+%  This should be used if the problem is large.
 % 3- Solution = DirichletSolver(..., 'Tol', TOL)
 %  Set the tolerance of the iterative solver to TOL (if 'Iterative' has been
-%  set)
+%  set). Default : 1e-6.
 %
 % See also DirichletRCS, DirichletFarField, DirichletNearField
 %
@@ -56,7 +58,7 @@ M_modes = FourierTruncation(a, k, 'Min', 1);
 %% GMRES parameters
 MAXIT = sum(2*M_modes+1);
 RESTART = [];
-TOL = 10^(-10);
+TOL = 10^(-6);
 %% Reading arguments
 TypeOfStorage = 'Full';
 TypeOfSolver = 'Direct';
@@ -84,11 +86,10 @@ while (cpt < nvar)
     end
 end
 
-if(strcmp(TypeOfStorage, 'SpPrecond'))
+if(strcmp(TypeOfStorage, 'Sparse'))
     TypeOfSolver = 'Iterative';
     disp('Warning: Direct solver cannot be used with sparse storage');
 end
-
 
 %% Integral formulations
 %% Single scattering preconditioned integral equation (single-layer formulation)
