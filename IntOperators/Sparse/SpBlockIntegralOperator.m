@@ -33,12 +33,13 @@
 %                              obstacle q
 % Nmax            [1 x 1]    : Reference number N (max of every other Np)
 % k               [1 x 1]    : Wavenumber in the vacuum
-% TypeOfOperator  [1 x 1]    : See Parser function. 
-%                              Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
-%                              SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
-%                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
-%                              Precond_Dirichlet (6 or 'P' (or cell-'Lprec')), 
-%                              Precond_Neumann (7 or 'Q' (or cell-'Dprec'))
+% TypeOfOperator (See below) : Specifies the integral operator. 
+%                              See Comon/Parser.m for correspondance. 
+%
+% TypeOfOperator acceptable size/type:
+% ------------------------------------
+% - Single value: SpBlockIntegralOperator(..., 2) or SpBlockIntegralOperator(..., {'L'})
+%
 % OPTION:
 % -------
 % [...] = SpBlockIntegralOperator(..., TypeOfOperator, Weight)
@@ -47,7 +48,7 @@
 % EXAMPLE:
 % --------
 % SpBlockIntegralOperator(..., 2, 0.5) will produce 0.5*L
-%   OR: SpBlockIntegralOperator(..., 'L', 0.5) produces 0.5*L
+%   OR: SpBlockIntegralOperator(..., {'L'}, 0.5) produces 0.5*L
 % 
 % See also Parser, IntegralOperator,
 % BlockIntegralOperator, SpIntegralOperator, BlockSingleLayer,

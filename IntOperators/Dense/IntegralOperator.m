@@ -21,26 +21,22 @@
 % M_Modes    [1 x N_scat]    : Truncation index in the Fourier series of
 %                              obstacles
 % k          [1 x 1]         : Wavenumber in the vacuum
-%        or  [1 x N_scat]      if k is non scalar, then k(p) = wavenumber 
+%        or  [1 x N_scat]      if k is a row/column, then k(p) = wavenumber 
 %                              associated to obstacle p
-% TypeOfOperator  (see below): Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
-% (See Parser)                 SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
-%                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
-%                              Precond_Dirichlet (6 or 'P' (or cell-'Lprec')), 
-%                              Precond_Neumann (7 or 'Q' (or cell-'Dprec'))
+% TypeOfOperator (See below) : Specifies the integral operator. 
+%                              See Comon/Parser.m for correspondance. 
 %
-% TypeOfOperator:
-% ---------------
-% - integer or char values
-% - SCALAR value: IntegralOperator(..., 2) produces SingleLayer L
-%      OR one char value: IntegralOperator(..., 'L') produces SingleLayer L
-% - ROW VECTOR value: IntegralOperator(..., [1,4]) produces I+N
-%                  OR IntegralOperator(..., ['L','M']) produces I+N 
-% - MATRIX value T: IntegralOperator(..., T) then block (p,q) is of type
-%   T(p,q)
-% - 3D Matrix value T: IntegralOperator(..., T) then block (p,q) is the sum
+% TypeOfOperator acceptable size/type:
+% ------------------------------------
+% - Single value: IntegralOperator(..., 2) or  IntegralOperator(..., {'L'})
+% - ROW VECTOR/CELL: IntegralOperator(..., [1,4]) produces I+N
+%                  OR IntegralOperator(..., {'I','N'}) produces I+N 
+% - 2D array/cell T: IntegralOperator(..., T) then block (p,q) is of type
+%   T(p,q) or T{p,q}
+% - 3D array/cell T: IntegralOperator(..., T) then block (p,q) is the sum
 %   of the different types: 
 %       T(p,q,1) + T(p,q,2) + ... T(p,q,end)
+%       T{p,q,1} + T{p,q,2} + ... T{p,q,end}
 %
 % OPTIONS (weight):
 % -----------------
@@ -119,43 +115,14 @@ function [A] = IntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
             Nq = M_modes(q);
             MNq = [-Nq:Nq].';
             %Compute the block matrix
-            [this_TypeOfOperator, this_weight] = getParams(TypeOfOperator, Weight, p, q);
-            this_k = GetK(k, p, q);
+            this_TypeOfOperator = GetTypeOfOperatorOrWeight(TypeOfOperator, p, q);
+            this_weight = GetTypeOfOperatorOrWeight(Weight, p, q);
+            this_k = GetK(k, p);
             A(Sp + MNp +(Np+1), Sq + MNq +(Nq+1)) = BlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, this_k, this_TypeOfOperator, this_weight);
             %Upgrade of the column-counter
             Sq = Sq + 2*Nq+1;
         end
         %Upgrade of the row-counter
         Sp = Sp + 2*Np+1; 
-    end
-
-end
-
-%% Get the TypeOfOperator of integral operators needed and (if any) the associated weight
-
-function [matTypeOfOperator, matWeight] = getParams(TypeOfOperator, Weight, p, q)
-    if (isrow(TypeOfOperator) || iscolumn(TypeOfOperator))
-       matTypeOfOperator = TypeOfOperator;
-       matWeight = Weight;
-    elseif(size(TypeOfOperator,3) == 1)
-       matTypeOfOperator = TypeOfOperator(p,q);
-       matWeight = Weight(p,q);
-    else
-       matTypeOfOperator = TypeOfOperator(:,p,q);
-       matWeight = Weight(:,p,q);
-    end
-end
-
-%%
-
-function this_k = GetK(k,p,q)
-    if(~isscalar(k))
-        if(p~=q)
-            this_k = k(p);
-        else
-            this_k = k(p);
-        end
-    else
-        this_k = k;
     end
 end

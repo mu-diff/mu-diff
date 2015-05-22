@@ -51,13 +51,14 @@ function Bp = BlockIncidentWave(Op, ap, Np, k, TypeOfWave, varargin)
     if(~isscalar(TypeOfWave))
        error('In block function, TypeOfWave must be a scalar');
     end
-    Param = varargin{1};
     %Initialization
     Bp = zeros(2*Np+1,1);
     MNp = [-Np:Np].';
     ScalarTypeOfWave = ParserIncidentWave(TypeOfWave);
+    Param = varargin{1};
     switch ScalarTypeOfWave
-        case 0, %Nothing
+        case 0, %Custom function
+            Bp = varargin{1}(Op, ap, Np, k, varargin{2:end});
         case 1, %Plane wave
             beta_inc = GetParam(TypeOfWave, Param);
             Jm_kap = besselj(MNp,k*ap);

@@ -24,6 +24,7 @@
 % Table of correspondances:
 % -------------------------
 %    Name                   Number
+% 'FromData'                  0
 % 'PlaneWave'                 1
 % 'DnPlaneWave'               2
 % 'PointSource'               3
@@ -67,6 +68,7 @@ end
 %%
 function bi = ParseCharIncidentWave(ai)
     switch ai
+        case 'FromData', bi = 0;
         case 'PlaneWave', bi = 1;
         case 'DnPlaneWave', bi = 2;
         case 'PointSource', bi = 3;

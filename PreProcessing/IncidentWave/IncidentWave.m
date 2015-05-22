@@ -26,8 +26,9 @@
 % M_Modes     [1 x N_scat] : Truncation index in the Fourier series of
 %                            obstacles
 % k           [1 x 1]      : Wavenumber in the vacuum
-% TypeOfWave  [1 x 1]      : Plane wave (1), Dn Plane wave (2), 
-%          or [N_scat x 1]   Point source (3), Dn Point source (4),
+% TypeOfWave  [1 x 1]      : Personal Data (0 - see below)), 
+%          or [N_scat x 1]   Plane wave (1), Dn Plane wave (2), 
+%                            Point source (3), Dn Point source (4),
 %                            Precond Plane wave (5), Precond Dn Plane wave (6),
 %                            Precond Point source (7), Precond Dn Point source (8),
 % varagin    (var)         : Parameter of the incident wave (direction, ...)
@@ -44,13 +45,15 @@
 %
 % REMARK:
 % -------
-% - It is not possible to mix plane wave and point source. This should be
-% done by two call of this functions.
-% - A plane wave of direction beta: uinc(X) = exp(i*beta*X)
-% - A point source from OS : uinc(X) = G(X,OS) = 0.25*i*H_0^(k*\|X-OS\|)
+% - It is possible to mix plane wave and point source but the result is 
+%   however probably strange. Consider calling this function twice.
+% - mu-diff definition of plane wave of direction beta: 
+%         uinc(X) = exp(i*beta*X)
+% - mu-diff definition of point source wave from OS : 
+%         uinc(X) = G(X,OS) = +0.25*i*H_0^(1)(k*\|X-OS\|)
 %
 % See also PlaneWave, DnPlaneWave, PointSource, DnPointSource,
-% PlaneWavePrecond, DnPlaneWavePrecond
+% PlaneWavePrecond, DnPlaneWavePrecond, ParserIncidentWave
 %
 %
 %%
@@ -76,7 +79,7 @@ function B = IncidentWave(O, a, M_modes, k, TypeOfWave, varargin)
         MNp = [-Np:Np].';
         
         this_wave = GetTypeOfWave(ScalarTypeOfWave, p);
-        B(Sp + MNp +(Np+1))= BlockIncidentWave(Op, ap, Np, k, this_wave, varargin{1});
+        B(Sp + MNp +(Np+1))= BlockIncidentWave(Op, ap, Np, k, this_wave, varargin{1:end});
         %Upgrade of the row-counter
         Sp = Sp + 2*Np+1; 
     end

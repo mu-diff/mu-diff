@@ -26,17 +26,15 @@
 % Nq              [1 x 1]    : Truncation index in the Fourier series of 
 %                              obstacle q
 % k               [1 x 1]    : Wavenumber in the vacuum
-% TypeOfOperator  [1 x 1]    : See Parser function.
-%              or [1 x Nop]    Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
-%                              SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
-%                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
-%                              Precond_Dirichlet (6 or 'P' (or cell-'Lprec')), 
-%                              Precond_Neumann (7 or 'Q' (or cell-'Dprec'))
+% TypeOfOperator (See below) : Specifies the integral operator. 
+%                              See Comon/Parser.m for correspondance. 
 %
-% REMARK: if Nop (=size(TypeOfOperator,2)) >1 then multiple operators are
-% computed and summed together. For example:
-%   TypeOfOperator = [1,4] will produce I + N
-%   TypeOfOperator accepts char instead of integer
+% TypeOfOperator acceptable size/type:
+% ------------------------------------
+% - Single value: BlockIntegralOperator(..., 2) or BlockIntegralOperator(..., {'L'})
+% - ROW VECTOR/CELL: multiple operators are computed and  together. For example:
+%   TypeOfOperator = [1,4] or TypeOfOperator = {'I','N'}
+%     will produce I + N
 % 
 % OPTIONS:
 % --------
@@ -58,19 +56,18 @@
 
 %%
 function Apq = BlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, k, TypeOfOperator, varargin)
-    TypeOfOperator = Parser(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};
     else
        Weight = ones(size(TypeOfOperator));
     end
-
     if(size(Weight) ~=size(TypeOfOperator))
         error('Matrix of TypeOfOperator and Weight must be of same size!');
     end
 
-    nTypeOfOperator = length(TypeOfOperator);
+    ScalarTypeOfOperator = Parser(TypeOfOperator);
+    nTypeOfOperator = length(ScalarTypeOfOperator);
 
     %Initialization of the submatrix Apq
     Apq = zeros(2*Np+1, 2*Nq+1);
@@ -83,13 +80,15 @@ function Apq = BlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, k, TypeOfOperator, 
             error('Obstacles are the same but with different number of modes !')
         end
         for iOperator=1:nTypeOfOperator
-            this_Operator = TypeOfOperator(iOperator);
+            this_Operator = ScalarTypeOfOperator(iOperator);
             this_weight = Weight(iOperator);
             if(this_weight == 0)
                 continue;
             end
             switch this_Operator
-                %case 0 is the null Matrix
+                case -1, %Custom operator
+                    Apq = Apq + this_weight*varargin{2}(Op, ap, Np, Oq, aq, Nq, k, varargin{3:end});
+                case 0, %null Matrix
                 case 1, % Identity
                     Apq = Apq + this_weight*eye(2*Np+1, 2*Np+1);
                 case 2, % Single Layer
@@ -129,7 +128,7 @@ function Apq = BlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, k, TypeOfOperator, 
         T = toeplitz(C,R);
 
         for iOperator=1:nTypeOfOperator
-            this_Operator = TypeOfOperator(iOperator);
+            this_Operator = ScalarTypeOfOperator(iOperator);
             this_weight = Weight(iOperator);
             switch this_Operator
                 %case 0 and 1 are the null matrix

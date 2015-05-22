@@ -22,19 +22,14 @@
 % M_Modes    [1 x N_scat]    : Truncation index in the Fourier series of
 %                              obstacles
 % k          [1 x 1]         : Wavenumber in the vacuum
-% TypeOfOperator  (see below): Null matrix (0 or 'Z'), Identity I (1 or 'I'), 
-% (See Parser)                 SingleLayer L (2 or 'L'), DoubleLayer M (3 or 'M'),
-%                              DnSingleLayer N (4 or 'N'), DnDoubleLayer D (5 or 'D')
-%                              Precond_Dirichlet (6 or 'P' (or cell-'Lprec')), 
-%                              Precond_Neumann (7 or 'Q' (or cell-'Dprec'))
-% 
-% TypeOfOperator:
-% ---------------
-% - integer or char values
-% - SCALAR value: SpIntegralOperator(..., 2) produces SingleLayer L
-%      OR one char value: SpIntegralOperator(..., 'L') produces SingleLayer L
-% - MATRIX value T: IntegralOperator(..., T) then block (p,q) is of type
-%   T(p,q)
+% TypeOfOperator (See below) : Specifies the integral operator. 
+%                              See Comon/Parser.m for correspondance. 
+%
+% TypeOfOperator acceptable size/type:
+% ------------------------------------
+% - Single value: SpIntegralOperator(..., 2) or   SpIntegralOperator(..., {'L'})
+% - 2D array/cell T: IntegralOperator(..., T) then block (p,q) is of type
+%   T(p,q) or T{p,q}
 %
 % OPTIONS (weight):
 % -----------------
@@ -70,19 +65,23 @@
 
 %%
 function A = SpIntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
-    TypeOfOperator = Parser(TypeOfOperator);
+    N_scat = length(a);
+    CheckSize(N_scat, TypeOfOperator, 'TypeOfOperator');    
+
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};
     else
        Weight = ones(size(TypeOfOperator));
     end
-    
+    CheckSize(N_scat, Weight, 'Weight');
     if(size(Weight) ~=size(TypeOfOperator))
         error('Matrix of TypeOfOperator and Weight must be of same size!');
     end
 
-    N_scat = length(a);
+    %Parse the typeofop to get a purely numeric array
+    TypeOfOperator = Parser(TypeOfOperator);
+
     %initialization of the Matrix A
     Nmax = max(M_modes);
     SizeMax = 2*Nmax+1;
@@ -102,31 +101,33 @@ function A = SpIntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
             Oq = O(:,q);
             aq = a(q);
             Nq = M_modes(q);
+            %Get the type of the block and the weight
+            this_type = GetTypeOfOperatorOrWeight(TypeOfOperator, p, q);
+            this_weight = GetTypeOfOperatorOrWeight(Weight, p, q);
+            this_k = GetK(k, p);
             %Compute the block matrix
-            [this_type, this_weight] = getTypeOfOperatorAndWeight(TypeOfOperator, Weight, p, q);
-            [A{1}(:,p,q), A{2}(:,p,q), A{3}(:,p,q)] = SpBlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, Nmax, k, this_type, this_weight);
+            [A{1}(:,p,q), A{2}(:,p,q), A{3}(:,p,q)] = SpBlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, Nmax, this_k, this_type, this_weight);
         end
     end
 end
 
-%% Get the TypeOfOperator of integral operators needed and (if any) the associated weight
-
-function [this_type, this_weight] = getTypeOfOperatorAndWeight(TypeOfOperator, Weight, p, q)
-    
-    if (isscalar(TypeOfOperator))
-       this_type = TypeOfOperator;
-    elseif(size(TypeOfOperator,1) == size(TypeOfOperator,2))
-       this_type = TypeOfOperator(p,q);
-    else
-        error('Wrong size of TypeOfOperator (either a scalar or a N_scatxN_scat matrix)');
+%%
+function []=  CheckSize(N_scat, A, name)
+    ni = size(A,1);
+    nj = size(A,2);
+    nk = size(A,3);
+    isErr = false;
+    if(nk>1)
+        isErr = true;
     end
-    
-    if (isscalar(Weight))
-       this_weight = Weight;
-    elseif(size(Weight,1) == size(Weight,2))
-       this_weight = Weight(p,q);
-    else
-        error('Wrong size of TypeOfOperator (either a scalar or a N_scatxN_scat matrix)');
+    if(ni ~= 1 && ni ~= N_scat)
+        isErr = true;
     end
-    
+    if(ni ~=nj)
+        isErr = true;
+    end
+    if(isErr)
+            error('Wrong size of ', name, [' (either one valued or a ' ...
+                            'N_scat x N_scat array or cell)']);
+    end
 end
