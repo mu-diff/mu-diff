@@ -59,18 +59,18 @@
 
 function [LeftPart, MiddlePart, RightPart] = SpBlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, Nmax, k, TypeOfOperator, varargin)
 
-    TypeOfOperator = Parser(TypeOfOperator);
+    ScalarTypeOfOperator = Parser(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};
     else
-       Weight = ones(size(TypeOfOperator));
+       Weight = ones(size(ScalarTypeOfOperator));
     end
 
-    if(length(Weight) ~=length(TypeOfOperator))
+    if(length(Weight) ~=length(ScalarTypeOfOperator))
         error('Matrix of TypeOfOperator and Weight must be of same size!');
     end
-    if(length(TypeOfOperator) > 1)
+    if(length(ScalarTypeOfOperator) > 1)
         error('TypeOfOperator must be a scalar in SpBlockIntegralOperator!');
     end
     SizeMax = 2*Nmax+1;
@@ -81,7 +81,7 @@ function [LeftPart, MiddlePart, RightPart] = SpBlockIntegralOperator(Op, ap, Np,
     MNp = [-Np:Np].';
 
     if (Op(1) == Oq(1) && Op(2) == Oq(2) && ap == aq) % Diagonal block (which is diagonal)
-        switch TypeOfOperator
+        switch ScalarTypeOfOperator
             case 0, %Null matrix
             case 1, %Identity
                 LeftPart(1:2*Np+1) = ones(2*Np+1,1);
@@ -124,13 +124,13 @@ function [LeftPart, MiddlePart, RightPart] = SpBlockIntegralOperator(Op, ap, Np,
     %    Root_Vector = [R(end:-1:1), C(2:end)].';
     %or a cross-corellation
         Root_Vector = [C(end:-1:2), R].';
-        if(TypeOfOperator > 1)
+        if(ScalarTypeOfOperator > 1)
             MiddlePart(1:length(Root_Vector)) = 1i*pi*0.5*besselh(Root_Vector,1,k*bpq).*exp(1i.*Root_Vector.*alphapq);
         else
             MiddlePart(1:length(Root_Vector)) = zeros(size(Root_Vector));
         end
         %Uncommon part:
-        switch TypeOfOperator
+        switch ScalarTypeOfOperator
             case 0, %Null matrix
             case 1, %Identity (=> null on off diagonal blocks)
             case 2, %Single Layer

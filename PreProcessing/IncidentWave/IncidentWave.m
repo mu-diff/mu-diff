@@ -46,7 +46,7 @@
 % REMARK:
 % -------
 % - It is possible to mix plane wave and point source but the result is 
-%   however probably strange. Consider calling this function twice.
+%   however probably strange. Consider calling this function twice instead.
 % - mu-diff definition of plane wave of direction beta: 
 %         uinc(X) = exp(i*beta*X)
 % - mu-diff definition of point source wave from OS : 
