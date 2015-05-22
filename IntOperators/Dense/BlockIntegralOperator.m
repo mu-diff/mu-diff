@@ -47,7 +47,7 @@
 % BlockIntegralOperator(..., 2, 0.5) will produce 0.5*L
 %   OR for the same result: BlockIntegralOperator(..., 'L', 0.5)
 % BlockIntegralOperator(..., [1,4], [0.5,1]) will produce: 0.5*I + N
-%   OR BlockIntegralOperator(..., ['L','N'], [0.5,1]) will produce: 0.5*I + N
+%   OR BlockIntegralOperator(..., {'L','N'}, [0.5,1]) will produce: 0.5*I + N
 % 
 % See also Parser, IntegralOperator,
 % SpBlockIntegralOperator, SpIntegralOperator, BlockSingleLayer,

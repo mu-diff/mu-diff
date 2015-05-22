@@ -48,15 +48,16 @@
 % --------
 % 1) Compute N (DnSingleLayer)
 %   > A = cell(3,1);
-%   > [A{1},A{2},A{3}] = SpIntegralOperator(O, a, M_modes, k, 4)
-% 2) For two obstacles in [-10,0] and [0,10] with radii 1 and 0.5, compute
+%   > A = SpIntegralOperator(O, a, M_modes, k, 4)
+%
+% 2) For two obstacles on [-10,0] and [0,10] with radii 1 and 0.5, compute
 % the matrix [L_11, 2*D_12; 3*N_21, 4*M_22]: 
 %   > O = [-10, 0; 0, 10];
 %   > a = [1, 0.5]
 %   > A = cell(3,1);
 %   > TypeOfOp = [2,5;4,3];
 %   > Weight = [1,2;3,4];
-%   > [A{1},A{2},A{3}] = SpIntegralOperator(O, a, M_modes, k, TypeOfOp, Weight)
+%   > A = SpIntegralOperator(O, a, M_modes, k, TypeOfOp, Weight)
 %
 % See also Parser, BlockIntegralOperator
 % SpBlockIntegralOperator, SpIntegralOperator, SpSingleLayer,
