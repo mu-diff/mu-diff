@@ -27,8 +27,8 @@
 %
 % TypeOfOperator acceptable size/type:
 % ------------------------------------
-% - Single value: SpIntegralOperator(..., 2) or   SpIntegralOperator(..., {'L'})
-% - 2D array/cell T: IntegralOperator(..., T) then block (p,q) is of type
+% - SINGLE VALUE: SpIntegralOperator(..., 2) or   SpIntegralOperator(..., {'L'})
+% - 2D ARRAY/CELL: IntegralOperator(..., T) then block (p,q) is of type
 %   T(p,q) or T{p,q}
 %
 % OPTIONS (weight):

@@ -38,7 +38,7 @@
 %
 % TypeOfOperator acceptable size/type:
 % ------------------------------------
-% - Single value: SpBlockIntegralOperator(..., 2) or SpBlockIntegralOperator(..., {'L'})
+% - SINGLE VALUE: SpBlockIntegralOperator(..., 2) or SpBlockIntegralOperator(..., {'L'})
 %
 % OPTION:
 % -------

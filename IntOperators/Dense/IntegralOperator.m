@@ -28,12 +28,12 @@
 %
 % TypeOfOperator acceptable size/type:
 % ------------------------------------
-% - Single value: IntegralOperator(..., 2) or  IntegralOperator(..., {'L'})
+% - SINGLE VALUE: IntegralOperator(..., 2) or  IntegralOperator(..., {'L'})
 % - ROW VECTOR/CELL: IntegralOperator(..., [1,4]) produces I+N
 %                  OR IntegralOperator(..., {'I','N'}) produces I+N 
-% - 2D array/cell T: IntegralOperator(..., T) then block (p,q) is of type
+% - 2D ARRAY/CELL: IntegralOperator(..., T) then block (p,q) is of type
 %   T(p,q) or T{p,q}
-% - 3D array/cell T: IntegralOperator(..., T) then block (p,q) is the sum
+% - 3D ARRAY/CELL: IntegralOperator(..., T) then block (p,q) is the sum
 %   of the different types: 
 %       T(p,q,1) + T(p,q,2) + ... T(p,q,end)
 %       T{p,q,1} + T{p,q,2} + ... T{p,q,end}

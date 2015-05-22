@@ -31,7 +31,7 @@
 %
 % TypeOfOperator acceptable size/type:
 % ------------------------------------
-% - Single value: BlockIntegralOperator(..., 2) or BlockIntegralOperator(..., {'L'})
+% - SINGLE VALUE: BlockIntegralOperator(..., 2) or BlockIntegralOperator(..., {'L'})
 % - ROW VECTOR/CELL: multiple operators are computed and  together. For example:
 %   TypeOfOperator = [1,4] or TypeOfOperator = {'I','N'}
 %     will produce I + N
