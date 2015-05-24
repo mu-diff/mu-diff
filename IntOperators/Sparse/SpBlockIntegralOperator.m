@@ -59,7 +59,7 @@
 
 function [LeftPart, MiddlePart, RightPart] = SpBlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, Nmax, k, TypeOfOperator, varargin)
 
-    ScalarTypeOfOperator = Parser(TypeOfOperator);
+    ScalarTypeOfOperator = ParserIntegralOperator(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};
@@ -82,6 +82,9 @@ function [LeftPart, MiddlePart, RightPart] = SpBlockIntegralOperator(Op, ap, Np,
 
     if (Op(1) == Oq(1) && Op(2) == Oq(2) && ap == aq) % Diagonal block (which is diagonal)
         switch ScalarTypeOfOperator
+          case -1,%Custom operator
+                [LeftPart(1:2*Np+1), RightPart(1:2*Np+1)] = ...
+                    varargin{2}(Op, ap, Np, Oq, aq, Nq, Nmax, k, varargin{3:end});            
             case 0, %Null matrix
             case 1, %Identity
                 LeftPart(1:2*Np+1) = ones(2*Np+1,1);
@@ -131,6 +134,9 @@ function [LeftPart, MiddlePart, RightPart] = SpBlockIntegralOperator(Op, ap, Np,
         end
         %Uncommon part:
         switch ScalarTypeOfOperator
+          case -1, %custom operator
+            [LeftPart(1:2*Np+1), RightPart(1:2*Nq+1)] = ...
+                    varargin{2}(Op, ap, Np, Oq, aq, Nq, Nmax, k, varargin{3:end});
             case 0, %Null matrix
             case 1, %Identity (=> null on off diagonal blocks)
             case 2, %Single Layer

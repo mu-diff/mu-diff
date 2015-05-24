@@ -66,7 +66,7 @@ function Apq = BlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, k, TypeOfOperator, 
         error('Matrix of TypeOfOperator and Weight must be of same size!');
     end
 
-    ScalarTypeOfOperator = Parser(TypeOfOperator);
+    ScalarTypeOfOperator = ParserIntegralOperator(TypeOfOperator);
     nTypeOfOperator = length(ScalarTypeOfOperator);
 
     %Initialization of the submatrix Apq
@@ -131,6 +131,8 @@ function Apq = BlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, k, TypeOfOperator, 
             this_Operator = ScalarTypeOfOperator(iOperator);
             this_weight = Weight(iOperator);
             switch this_Operator
+                case -1, %Custom operator
+                    Apq = Apq + this_weight*varargin{2}(Op, ap, Np, Oq, aq, Nq, k, varargin{3:end});
                 %case 0 and 1 are the null matrix
                 case 2, %Single Layer
                     Jm_kap = besselj(MNp,k*ap);

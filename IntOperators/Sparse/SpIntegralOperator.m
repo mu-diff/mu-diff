@@ -81,7 +81,7 @@ function A = SpIntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
     end
 
     %Parse the typeofop to get a purely numeric array
-    ScalarTypeOfOperator = Parser(TypeOfOperator);
+    ScalarTypeOfOperator = ParserIntegralOperator(TypeOfOperator);
 
     %initialization of the Matrix A
     Nmax = max(M_modes);
@@ -107,7 +107,9 @@ function A = SpIntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
             this_weight = GetTypeOfOperatorOrWeight(Weight, p, q);
             this_k = GetK(k, p);
             %Compute the block matrix
-            [A{1}(:,p,q), A{2}(:,p,q), A{3}(:,p,q)] = SpBlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, Nmax, this_k, this_type, this_weight);
+            [A{1}(:,p,q), A{2}(:,p,q), A{3}(:,p,q)] = ...
+                SpBlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, Nmax, ...
+                                        this_k, this_type, this_weight, varargin{2:end});
         end
     end
 end

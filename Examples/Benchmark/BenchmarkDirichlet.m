@@ -138,7 +138,7 @@ SpA_EFIE = SpSingleLayer(O, a, M_modes, k);
 [rho_SpEFIE,FLAG_SpEFIE,RELRES_SpEFIE,ITER_SpEFIE,RESVEC_SpEFIE] = gmres(@(X)SpMatVec(X,M_modes,SpA_EFIE), Uinc, RESTART, TOL, MAXIT, [], []);
 
 %% MFIE
-A_MFIE = IntegralOperator(O, a, M_modes, k, ['I','N'], [0.5, 1]);
+A_MFIE = IntegralOperator(O, a, M_modes, k, {'I','N'}, [0.5, 1]);
 [rho_MFIE,FLAG_MFIE,RELRES_MFIE,ITER_MFIE,RESVEC_MFIE] = gmres(A_MFIE, DnUinc, RESTART, TOL, MAXIT, [], []);
 %% SPARSE MFIE
 SpN = SpDnSingleLayer(O, a, M_modes, k);
@@ -159,7 +159,7 @@ B_CFIE = alpha * eta * Uinc + (1-alpha)* DnUinc;
 
 %% Brackage Werner
 eta_BW = 1i/k;
-A_BW = IntegralOperator(O, a, M_modes, k, ['I', 'L', 'M'], [0.5, -eta_BW, -1]);
+A_BW = IntegralOperator(O, a, M_modes, k, {'I', 'L', 'M'}, [0.5, -eta_BW, -1]);
 [psi_BW,FLAG_BW,RELRES_BW,ITER_BW,RESVEC_BW] = gmres (A_BW, Uinc, RESTART,TOL,MAXIT);
 %% SPARSE Brackage Werner
 SpM = SpDoubleLayer(O, a, M_modes, k);

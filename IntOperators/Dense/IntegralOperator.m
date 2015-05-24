@@ -77,7 +77,7 @@
 
 function [A] = IntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
 
-    ScalarTypeOfOperator = Parser(TypeOfOperator);
+    ScalarTypeOfOperator = ParserIntegralOperator(TypeOfOperator);
     nvarargin = length(varargin);
     if(nvarargin >= 1)
        Weight = varargin{1};
@@ -118,7 +118,9 @@ function [A] = IntegralOperator(O, a, M_modes, k, TypeOfOperator, varargin)
             this_TypeOfOperator = GetTypeOfOperatorOrWeight(ScalarTypeOfOperator, p, q);
             this_weight = GetTypeOfOperatorOrWeight(Weight, p, q);
             this_k = GetK(k, p);
-            A(Sp + MNp +(Np+1), Sq + MNq +(Nq+1)) = BlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, this_k, this_TypeOfOperator, this_weight);
+            A(Sp + MNp +(Np+1), Sq + MNq +(Nq+1)) = ...
+                BlockIntegralOperator(Op, ap, Np, Oq, aq, Nq, this_k, ...
+                                      this_TypeOfOperator, this_weight, varargin{2:end});
             %Upgrade of the column-counter
             Sq = Sq + 2*Nq+1;
         end

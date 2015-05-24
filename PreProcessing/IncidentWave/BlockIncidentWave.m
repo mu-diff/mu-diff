@@ -57,8 +57,9 @@ function Bp = BlockIncidentWave(Op, ap, Np, k, TypeOfWave, varargin)
     ScalarTypeOfWave = ParserIncidentWave(TypeOfWave);
     Param = varargin{1};
     switch ScalarTypeOfWave
-        case 0, %Custom function
+        case -1, %Custom function
             Bp = varargin{1}(Op, ap, Np, k, varargin{2:end});
+        case 0, %Zeros
         case 1, %Plane wave
             beta_inc = GetParam(TypeOfWave, Param);
             Jm_kap = besselj(MNp,k*ap);

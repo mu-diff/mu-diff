@@ -8,7 +8,7 @@
 % ~~~
 % Parser that change a character or numeric (or mix) array or cell 
 % into a scalar array of corresponding integral operators.
-% B = Parser(A)
+% B = ParserIntegralOperator(A)
 %
 % OUTPUT ARGUMENTS:
 % -----------------
@@ -38,7 +38,7 @@
 % See also IntegralOperator, BlockIntegralOperator, SpIntegralOperator, 
 % SpBlockIntegralOperator
 
-function B = Parser(A)
+function B = ParserIntegralOperator(A)
     ni = size(A,1);
     nj = size(A,2);
     nk = size(A,3);
@@ -52,6 +52,7 @@ function B = Parser(A)
                     aijk = A{i,j,k};
                     if(ischar(aijk))
                         switch aijk
+                            case 'Cust', bijk = -1; % Personnal function
                             case 'Z', bijk = 0; % Null
                             case 'I', bijk = 1; % Identity
                             case 'L', bijk = 2; % Single Layer
