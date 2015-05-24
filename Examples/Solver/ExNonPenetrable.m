@@ -47,7 +47,7 @@ end
 disp(['Incident wave: ', TypeOfWave]);
 %% Wavenumber
 k =2*pi;
-disp(['Wavenumber: ', k]);
+disp(['Wavenumber: ', num2str(k)]);
 %% Geometry
 GEOMETRY = 'manual';
 %GEOMETRY = 'random';
