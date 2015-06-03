@@ -45,7 +45,7 @@
 %   RectangularLattice(..., 'Direction', +/- 1)
 % place the row in the increasing y (+1) or decreasing y (-1). Default: +1
 %
-%   RectangularLattice(..., 'Centered', Ocenter)
+%   RectangularLattice(..., 'Center', Ocenter)
 % center the collection on the point Ocenter.
 % Default: none but erase Ostart ('Origin' option)
 %
@@ -67,14 +67,14 @@ while(cpt_arg <= nvarargin)
    elseif(strcmp(varargin{cpt_arg}, 'Direction'))
        direction = varargin{cpt_arg+1};
        cpt_arg = cpt_arg +2;
-   elseif(strcmp(varargin{cpt_arg}, 'Centered'))
+   elseif(strcmp(varargin{cpt_arg}, 'Center'))
        Ocenter = varargin{cpt_arg+1};
        xOstart = Ocenter(1) - bx*(Nx-1)/2;
        yOstart = Ocenter(2) - by*(Ny-1)/2;
        Ostart = [xOstart; yOstart];
        cpt_arg = cpt_arg +2;
    else
-       warning('Unkown option');
+       warning(['Unkown option ', varargin{cpt_arg}]);
        cpt_arg = cpt_arg +1;
    end
 end
