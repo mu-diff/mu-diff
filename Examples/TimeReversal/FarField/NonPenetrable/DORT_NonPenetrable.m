@@ -61,7 +61,7 @@ axis([-val_max,val_max,-val_max,val_max])
 %% Building the TRM
 
 %Reception angles (start - end)
-ReceptionAnglesStart = 0;
+ReceptionAnglesStart = 0;case
 ReceptionAnglesEnd = 2*pi;
 
 % TRM size (can be reduce to get an open TRM)
@@ -181,7 +181,7 @@ for cpt_vect = 1:Nb_vect
     pcolor(X,Y,abs(Z)); %view(2); 
     colorbar;
     shading interp;
-    title(['Herglotz wave associated to eigenvector n�',num2str(cpt_vect)]) 
+    title(['Herglotz wave associated to eigenvector n�',casenum2str(cpt_vect)]) 
     xlabel('x_1'); ylabel('x_2');
     axis([xmin, xmax, ymin,ymax]);
     hold on 

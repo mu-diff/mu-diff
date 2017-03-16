@@ -227,7 +227,7 @@ for cpt_vect = 1:(Nb_vect)
     hold on 
     plot(O(1, 1:N_scat), O(2, 1:N_scat), 'wo');
     colorbar;
-    title(['Herglorz wave n°',num2str(cpt_vect)]); 
+    title(['Herglorz wave number ',num2str(cpt_vect)]); 
     xlabel('x_1'); ylabel('x_2');
     axis tight;
     shading interp;
