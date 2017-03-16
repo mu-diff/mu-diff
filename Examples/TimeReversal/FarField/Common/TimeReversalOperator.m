@@ -8,18 +8,21 @@
 % ~~~
 % Compute time reversal operator T = F*F = FF*
 % in the far fielc and acoustic case
-% Input
-% Nb_angles        : nombre d'angles de discrétisation
-% halpha           : pas de discrétisation des angles
-% EmissionAngles  : vecteur des angles d'émission (rad)
-% ReceptionAngles : vecteur des angles de réception (rad) (= EmissionAngles + pi)
-% O [2 x N_scat]   : matrice des centres des obstacles
-% a [1 x N_scat]   : vecteur des rayons des obstacles
-% k                : fréquence
-% Paramètres de sortie
-% T : matrice de RT
-% F : matrice de champ lointain
-% M_modes : vecteurs des modes de Fourier
+% Input:
+% ======
+% Nb_angles        : number of angles of discretization
+% halpha           : discretization step
+% EmissionAngles   : Array of emission angles (rad)
+% ReceptionAngles  : Array of receiving angles(rad) (= EmissionAngles + pi)
+% O [2 x N_scat]   : 2D-Array of the centers of the obstacles
+% a [1 x N_scat]   : Array of radii
+% k                : frequency
+%
+% Output:
+% =======
+% T : Time reversal Matrix
+% F : Far Field Matrix
+% M_modes : Fourier modes vectors
 %
 
 function [T, F, M_modes] = TimeReversalOperator(O, a, k, halpha, EmissionAngles, ReceptionAngles, varargin)
