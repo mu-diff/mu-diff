@@ -15,7 +15,7 @@
 %   SIAM J. Appl. Math., (2004)
 %
 %2) B. Thierry
-%   "Analyse et Simulations Numériques du Retournement Temporel et de la 
+%   "Analyse et Simulations Numeriques du Retournement Temporel et de la 
 %    Diffraction Multiple"
 %   PhD Thesis, University of Nancy, France, 2011 (in french).
 %
@@ -181,7 +181,7 @@ for cpt_vect = 1:Nb_vect
     pcolor(X,Y,abs(Z)); %view(2); 
     colorbar;
     shading interp;
-    title(['Herglotz wave associated to eigenvector n°',num2str(cpt_vect)]) 
+    title(['Herglotz wave associated to eigenvector nï¿½',num2str(cpt_vect)]) 
     xlabel('x_1'); ylabel('x_2');
     axis([xmin, xmax, ymin,ymax]);
     hold on 
