@@ -45,8 +45,8 @@ YYmin = -10; YYmax = 10;
 lc = min(2*pi/15, 1/10); % characteristic length
 
 %% Geometry (chose one)
-GEOMETRY = 'manual';
-%GEOMETRY = 'random';
+%GEOMETRY = 'manual';
+GEOMETRY = 'random';
 %GEOMETRY = 'rectangular';
 %GEOMETRY = 'triangular';
 
@@ -84,7 +84,7 @@ xlabel('x'); ylabel('y');
 title('Obstacles');
 axis equal;
 %% Physical properties
-contrast = [2.2, 2.2];
+contrast = 2.2*ones(N_scat,1);
 k = 1;  %exterior wavenumber
 k_int = k.*contrast;
 
