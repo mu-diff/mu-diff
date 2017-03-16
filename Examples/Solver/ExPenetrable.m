@@ -45,8 +45,8 @@ YYmin = -10; YYmax = 10;
 lc = min(2*pi/15, 1/10); % characteristic length
 
 %% Geometry (chose one)
-%GEOMETRY = 'manual';
-GEOMETRY = 'random';
+GEOMETRY = 'manual';
+%GEOMETRY = 'random';
 %GEOMETRY = 'rectangular';
 %GEOMETRY = 'triangular';
 
