@@ -7,7 +7,7 @@
 %
 % ~~~
 % Compute time reversal operator T = F*F = FF*
-% in the far fielc and acoustic case
+% in the far field context and for acoustic waves
 % Input:
 % ======
 % Nb_angles        : number of angles of discretization
