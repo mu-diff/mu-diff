@@ -1,6 +1,6 @@
 This is mu-diff: an open matlab toolbox for solving multiple scattering problems
 
-mu-diff is copyright (C) 2014 X. Antoine and B. Thierry, University of Lorraine, France,
+mu-diff is copyright (C) 2014-2018 X. Antoine and B. Thierry, University of Lorraine, CNRS, France,
 and is distributed under the terms of the GNU General Public License, Version 2
 or later. See Doc/LICENSE.txt and Doc/CREDITS.txt for more information.
 
