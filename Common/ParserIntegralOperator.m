@@ -28,11 +28,11 @@
 % Letter (cell case)   Number    Associated Operator
 %'Z'                     0       Null Matrix
 %'I'                     1       Identity
-%'L'                     2       L: Single Layer
-%'M'                     3       M: Double Layer
-%'N'                     4       N: Dn Single Layer
+%'L' or 'S'              2       L: Single Layer
+%'M' or 'K'              3       M: Double Layer
+%'N' or 'K*'             4       N: Dn Single Layer
 %'D'                     5       D: Dn Double Layer
-%'Lprec'                 6       (\^L)^{-1}L: Precond Dirichlet (single scat. precond, diag(L)^-1*L)
+%'Lprec' or 'Sprec'      6       (\^L)^{-1}L: Precond Dirichlet (single scat. precond, diag(L)^-1*L)
 %'Dprec'                 7       (\^D)^{-1}D: Precond Neumann (single scat. precond, diag(D)^-1*D)
 % 
 % See also IntegralOperator, BlockIntegralOperator, SpIntegralOperator, 
@@ -55,11 +55,11 @@ function B = ParserIntegralOperator(A)
                             case 'Cust', bijk = -1; % Personnal function
                             case 'Z', bijk = 0; % Null
                             case 'I', bijk = 1; % Identity
-                            case 'L', bijk = 2; % Single Layer
-                            case 'M', bijk = 3; % Double Layer
-                            case 'N', bijk = 4; % Dn Single Layer
+                            case {'L', 'S'}, bijk = 2; % Single Layer
+                            case {'M', 'K'}, bijk = 3; % Double Layer
+                            case {'N', 'K*'}, bijk = 4; % Dn Single Layer
                             case 'D', bijk = 5; % Dn Double Layer
-                            case 'Lprec', bijk = 6; % Precond Dirichlet (diag(L)^-1*L)
+                            case {'Lprec', 'Sprec'}, bijk = 6; % Precond Dirichlet (diag(L)^-1*L)
                             case 'Dprec', bijk = 7; % Precond Neumann (diag(D)^-1*D)
                             case 'P', bijk = 6; % Precond Dirichlet (diag(L)^-1*L)
                             case 'Q', bijk = 7; % Precond Neumann (diag(D)^-1*D)
@@ -86,9 +86,9 @@ function B = ParserIntegralOperator(A)
 %                        switch aijk
 %                           case 'Z', bijk = 0; % Null
 %                           case 'I', bijk = 1; % Identity
-%                           case 'L', bijk = 2; % Single Layer
-%                           case 'M', bijk = 3; % Double Layer
-%                           case 'N', bijk = 4; % Dn Single Layer
+%                           case 'L' or 'S', bijk = 2; % Single Layer
+%                           case 'M' or 'K', bijk = 3; % Double Layer
+%                           case 'N' or 'K*', bijk = 4; % Dn Single Layer
 %                           case 'D', bijk = 5; % Dn Double Layer
 %                           case 'P', bijk = 6; % Precond Dirichlet (diag(L)^-1*L)
 %                           case 'Q', bijk = 7; % Precond Neumann (diag(D)^-1*D)

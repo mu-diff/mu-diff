@@ -116,7 +116,7 @@ Solution = PenetrableSolver(O, a, k, k_int, TypeOfWave, ParamWave);
 theta_RCS = 0:360;
 theta_RCS_rad = theta_RCS*2*pi/360;
 
-R = PenetrableRCS(Solution, theta_RCS_rad);
+R = NonPenetrableRCS(Solution, theta_RCS_rad);
 
 ind_fig = ind_fig +1; figure(ind_fig);
 plot(theta_RCS, R, 'k-');
