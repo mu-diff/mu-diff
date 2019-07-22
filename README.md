@@ -1,4 +1,4 @@
-# Mu-Diff: open MATLAB toolbox for solving multiple scattering problems
+# Mu-Diff: MATLAB Toolbox for Solving Multiple Scattering Problems
 
 ## Description
 
