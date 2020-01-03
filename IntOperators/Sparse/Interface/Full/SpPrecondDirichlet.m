@@ -1,4 +1,4 @@
-% mu-diff - Copyright (C) 2014-2019 X. Antoine and B. Thierry, University of Lorraine, CNRS, France
+% mu-diff - Copyright (C) 2014-2020 X. Antoine and B. Thierry, University of Lorraine, CNRS, France
 %
 % See the LICENSE.txt file for license information. Please report all
 % bugs and problems to either (replace [at] and [dot] by arobase and dot)
